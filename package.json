@@ -1,0 +1,40 @@
+{
+  "name": "interactive-atom-template-2019",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/register": "^7.6.2",
+    "babel-preset-env": "^1.7.0",
+    "browser-sync": "^2.26.7",
+    "core-js": "^3.3.3",
+    "d3": "^5.12.0",
+    "del": "^5.1.0",
+    "gulp": "^4.0.2",
+    "gulp-better-rollup": "^4.0.1",
+    "gulp-clean-css": "^4.2.0",
+    "gulp-file": "^0.4.0",
+    "gulp-rename": "^1.4.0",
+    "gulp-s3-upload": "^1.7.3",
+    "gulp-sass": "^4.0.2",
+    "gulp-tap": "^2.0.0",
+    "gulp-template": "^5.0.0",
+    "gulp-uglify": "^3.0.2",
+    "gulp-util": "^3.0.8",
+    "merge-stream": "^2.0.0",
+    "node-sass": "^4.13.0",
+    "require-uncached": "^2.0.0",
+    "rollup": "^1.25.2",
+    "rollup-plugin-babel": "^4.3.3",
+    "rollup-plugin-commonjs": "^10.1.0",
+    "rollup-plugin-node-resolve": "^5.2.0"
+  },
+  "dependencies": {}
+}
