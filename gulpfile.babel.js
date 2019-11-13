@@ -20,16 +20,18 @@ const uglify = require("gulp-uglify")
 const cleanCSS = require('gulp-clean-css');
 const es = require('event-stream');
 const mergeStream = require('merge-stream');
+const alias = require('@rollup/plugin-alias');
 const config = require("./config.json")
-
+const path = require("path")
 const cdnUrl = 'https://interactive.guim.co.uk';
 
-const isDeploy = gutil.env._.indexOf('deploylive') > -1 || gutil.env._.indexOf('deploypreview')
+const isDeploy = gutil.env._.indexOf('deploylive') > -1 || gutil.env._.indexOf('deploypreview') > -1
 const live = gutil.env._.indexOf('deploylive') > -1
 
 const version = `v/${Date.now()}`;
 const s3Path = `atoms/${config.path}`;
 const assetPath = isDeploy ? `${cdnUrl}/${s3Path}/assets/${version}` : '../assets';
+const json = require('rollup-plugin-json')
 
 const clean = () => {
   return del([".build"]);
@@ -43,7 +45,7 @@ const render = async() => {
         path.extname = ".html";
       }))
       .pipe(tap(async(file) => {
-        const render = require(file.path.toString().replace(/main.html/g, "server/render.js")).render
+        const render = requireUncached(file.path.toString().replace(/main.html/g, "server/render.js")).render
         const html = await render();
         file.contents = Buffer.from(html);
       })) 
@@ -52,16 +54,29 @@ const render = async() => {
 
 const buildJS = () => {
   return src("atoms/**/client/js/*.js")
-    .pipe(rollup({plugins: [
-      babel({
-        exclude: "node_modules/**",
-      }),
-      resolve({
-        "mainFields": ["module", "main", "jsnext"]
-      }),
-      commonjs({
-        include: "node_modules/**"
-      })]},
+    .pipe(rollup({
+      plugins: [
+        babel({
+          exclude: "node_modules/**",
+        }),
+        alias({
+          entries: {
+            "react": path.resolve(__dirname, 'node_modules/preact/dist/preact.js'),
+            "react-dom": path.resolve(__dirname, 'node_modules/preact/dist/preact.js'),
+            "shared": path.resolve(__dirname, 'shared')
+          }
+        }),
+        resolve({
+          "mainFields": ["module", "main", "jsnext"]
+        }),
+        commonjs({
+          include: "node_modules/**"
+        }),
+        json({
+          compact: true,
+          preferConst: true
+        })
+    ]},
     "iife"))
     .pipe(rename((path) => {
       path.dirname = path.dirname.replace(/client\/js/g, "");
@@ -76,7 +91,11 @@ const buildJS = () => {
 
 const buildCSS = () => {
   return src("atoms/**/client/css/*.scss")
-    .pipe(sass().on("error", sass.logError))
+    .pipe(sass({
+      includePaths: [
+        path.resolve(__dirname, 'shared/css')
+      ]
+    }).on("error", sass.logError))
     .pipe(rename((path) => {
       path.dirname = path.dirname.replace(/client\/css/g, "");
     }))
@@ -107,7 +126,7 @@ const _template = (x) => {
 }
 
 const local = () => {
-  const atoms = (fs.readdirSync(".build")).filter(n => n !== "assets");
+  const atoms = (fs.readdirSync(".build")).filter(n => n !== "assets" && n !== "index.html");
 
   const atomPromises = atoms.map(atom => { 
     const js = _template((fs.readFileSync(`.build/${atom}/main.js`)).toString());
@@ -115,7 +134,7 @@ const local = () => {
     const html = _template((fs.readFileSync(`.build/${atom}/main.html`)).toString());
     
     return src(["harness/*", "!harness/_index.html"])
-      .pipe(template({js,css,html,atom}))
+      .pipe(template({js,css,html,atom,version}))
       .pipe(dest(".build/" + atom))
   });
 
@@ -139,8 +158,8 @@ const serve = () => {
       'port': 8000
   });
 
-  watch(["atoms/**/*", "!**/*.scss"], series(build, local))
-  watch("atoms/**/*.scss", series(buildCSS, local))
+  watch(["atoms/**/*", "shared/**/*", "!*.scss"], series(build, local));
+  watch(["atoms/**/*.scss","shared/**/*.scss"], series(buildCSS, local))
 }
 
 const s3Upload = (cacheControl, keyPrefix) => {

@@ -10,8 +10,10 @@
   "license": "ISC",
   "devDependencies": {
     "@babel/core": "^7.6.4",
+    "@babel/plugin-proposal-class-properties": "^7.7.0",
     "@babel/preset-env": "^7.6.3",
     "@babel/register": "^7.6.2",
+    "@rollup/plugin-alias": "^2.2.0",
     "babel-preset-env": "^1.7.0",
     "browser-sync": "^2.26.7",
     "core-js": "^3.3.3",
@@ -30,11 +32,16 @@
     "gulp-util": "^3.0.8",
     "merge-stream": "^2.0.0",
     "node-sass": "^4.13.0",
+    "preact": "^10.0.4",
+    "preact-compat": "^3.19.0",
     "require-uncached": "^2.0.0",
     "rollup": "^1.25.2",
     "rollup-plugin-babel": "^4.3.3",
     "rollup-plugin-commonjs": "^10.1.0",
-    "rollup-plugin-node-resolve": "^5.2.0"
+    "rollup-plugin-json": "^4.0.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-preact": "^0.5.2",
+    "sass-mq": "^5.0.1"
   },
   "dependencies": {}
 }
