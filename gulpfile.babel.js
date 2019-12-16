@@ -25,6 +25,7 @@ const webpack = require('webpack')
 const ws = require('webpack-stream')
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const mkdirp = require("mkdirp")
+const rp = require("request-promise")
 
 const isDeploy = gutil.env._.indexOf('deploylive') > -1 || gutil.env._.indexOf('deploypreview') > -1
 const live = gutil.env._.indexOf('deploylive') > -1
@@ -165,7 +166,7 @@ const _template = (x) => {
 }
 
 const local = () => {
-  const atoms = (fs.readdirSync(".build")).filter(n => n !== "assets" && n !== "index.html");
+  const atoms = getAtoms();
 
   const atomPromises = atoms.map(atom => { 
     const js = _template((fs.readFileSync(`.build/${atom}/main.js`)).toString());
@@ -247,13 +248,32 @@ const upload = () => {
   return mergeStream(uploadTasks)
 }
 
+const getAtoms = () => (fs.readdirSync(".build")).filter(n => n !== "assets" && n !== "index.html")
+
 const url = (cb) => {
-  const atoms = (fs.readdirSync(".build")).filter(n => n !== "assets");
+  const atoms = getAtoms();
 
   atoms.forEach(atom => {
     gutil.log(gutil.colors.yellow(`${atom} url:`));
     gutil.log(gutil.colors.yellow(`https://content.guardianapis.com/atom/interactive/interactives/${config.path}/${atom}`));
   });
+
+  cb();
+}
+
+const getLogs = async(cb) => {
+  const atoms = getAtoms();
+
+  for(let i = 0; i < atoms.length; i++) {
+    const atom = atoms[i];
+    const liveLog = await rp(`${cdnUrl}/atoms/${config.path}/${atom}/live.log`).catch(err => console.log(`LIVE REQUEST ERROR: ${atom}`));
+    const previewLog = await rp(`${cdnUrl}/atoms/${config.path}/${atom}/preview.log`).catch(err => console.log(`PREVIEW REQUEST ERROR: ${atom}`));
+
+    console.log(`${atom} live log:`)
+    console.log(liveLog)
+    console.log(`${atom} preview log:`)
+    console.log(previewLog)
+  }
 
   cb();
 }
@@ -264,5 +284,6 @@ const deploy = series(build, upload)
 exports.build = build;
 exports.deploylive = deploy;
 exports.deploypreview = deploy;
+exports.log = getLogs;
 exports.url = url;
 exports.default = series(build, local, serve);
