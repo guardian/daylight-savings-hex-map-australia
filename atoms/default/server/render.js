@@ -1,5 +1,5 @@
 export async function render() {
-    const html = `Foo`
+    const html = `<div class=".interactive-wrapper"></div>`
 
     return html;
 } 
