@@ -1,5 +1,5 @@
-export async function render() {
-    const html = `<div class=".interactive-wrapper"></div>`
+import mainHTML from "./atoms/default/server/templates/main.html!text"
 
-    return html;
+export async function render() {
+    return mainHTML;
 } 
