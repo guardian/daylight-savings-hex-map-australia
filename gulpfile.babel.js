@@ -59,7 +59,7 @@ const render = async (cb) => {
   try {
     const atoms = (fs.readdirSync("atoms")).filter(n => n.slice(0, 1) !== ".");
     const renders = atoms.map(atom => {
-      let render = requireUncached(`./atoms/${atom}/server/render.js`).render;
+      const render = requireUncached(`./atoms/${atom}/server/render.js`).render;
       return Promise.resolve(render());
     });
 
@@ -116,7 +116,7 @@ const buildJS = () => {
     }, webpack))
     .on('error', function handleError(e) {
       this.emit('end'); // Recover from errors
-  })
+    })
     .pipe(rename((path) => {
       path.dirname = path.dirname.replace(/client/g, "");
     })) 
@@ -197,7 +197,7 @@ const serve = () => {
       'port': 8000
   });
 
-  watch(["atoms/**/*", "shared/**/*", "!.scss"], series(build, local));
+  watch(["atoms/**/*", "shared/**/*", "!**/*.scss"], series(build, local));
   watch(["atoms/**/*.scss","shared/**/*.scss"], series(buildCSS, local))
 }
 
