@@ -1,29 +1,30 @@
 const { series, dest, src, parallel, watch } = require("gulp");
 const del = require("del");
-const rollup = require("gulp-better-rollup");
-const babel = require("rollup-plugin-babel");
 const tap = require("gulp-tap");
 const gutil = require("gulp-util");
 const rename = require("gulp-rename");
-const commonjs = require("rollup-plugin-commonjs");
-const resolve = require("rollup-plugin-node-resolve");
 const requireUncached = require("require-uncached");
 const s3 = require("gulp-s3-upload");
 const fs = require("fs");
 const template = require('gulp-template');
+const replace = require('gulp-replace');
 const sass = require("gulp-sass");
 const file = require("gulp-file");
 sass.compiler = require("node-sass");
-const browserSync = require("browser-sync");
+const browserSync = require("browser-sync");3
 const browser = browserSync.create();
 const uglify = require("gulp-uglify")
 const cleanCSS = require('gulp-clean-css');
 const es = require('event-stream');
 const mergeStream = require('merge-stream');
-const alias = require('@rollup/plugin-alias');
 const config = require("./config.json")
 const path = require("path")
+const named = require("vinyl-named")
 const cdnUrl = 'https://interactive.guim.co.uk';
+const webpack = require('webpack')
+const ws = require('webpack-stream')
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
+const mkdirp = require("mkdirp")
 
 const isDeploy = gutil.env._.indexOf('deploylive') > -1 || gutil.env._.indexOf('deploypreview') > -1
 const live = gutil.env._.indexOf('deploylive') > -1
@@ -31,66 +32,101 @@ const live = gutil.env._.indexOf('deploylive') > -1
 const version = `v/${Date.now()}`;
 const s3Path = `atoms/${config.path}`;
 const assetPath = isDeploy ? `${cdnUrl}/${s3Path}/assets/${version}` : '../assets';
-const json = require('rollup-plugin-json')
+
+// hack to use .babelrc environments without env var, would be nice to
+// be able to pass "client" env through to babel
+const babelrc = JSON.parse(fs.readFileSync('.babelrc'));
+const presets = (babelrc.presets || []).concat(babelrc.env.client.presets);
+const plugins = (babelrc.plugins || []).concat(babelrc.env.client.plugins);
+
+
+let webpackPlugins = [
+  new webpack.LoaderOptionsPlugin({
+      options: {
+          babel: {
+              presets,
+              plugins
+          }
+      }
+  })
+];
 
 const clean = () => {
   return del([".build"]);
 }
 
-const render = async() => {
-    return src("atoms/**/server/render.js")
-      .pipe(rename((path) => {
-        path.dirname = path.dirname.replace(/server/g, "");
-        path.basename = "main";
-        path.extname = ".html";
-      }))
-      .pipe(tap(async(file) => {
-        const render = requireUncached(file.path.toString().replace(/main.html/g, "server/render.js")).render
-        const html = await render();
-        file.contents = Buffer.from(html);
-      })) 
-      .pipe(dest(".build/"));
+const render = async (cb) => {
+  try {
+    const atoms = (fs.readdirSync("atoms")).filter(n => n.slice(0, 1) !== ".");
+    const renders = atoms.map(atom => {
+      let render = requireUncached(`./atoms/${atom}/server/render.js`).render;
+      return Promise.resolve(render());
+    });
+
+    const htmls = await Promise.all(renders)
+
+    htmls.forEach((html, i) => {
+      const atom = atoms[i];
+      mkdirp.sync(`.build/${atom}`)
+      fs.writeFileSync(`.build/${atom}/main.html`, html);
+    })
+  } catch (err) {
+    console.log(err);
+  }
+  cb();
 }
 
 const buildJS = () => {
-  return src("atoms/**/client/js/*.js")
-    .pipe(rollup({
-      plugins: [
-        babel({
-          exclude: "node_modules/**",
-        }),
-        alias({
-          entries: {
-            "react": path.resolve(__dirname, 'node_modules/preact/dist/preact.js'),
-            "react-dom": path.resolve(__dirname, 'node_modules/preact/dist/preact.js'),
-            "shared": path.resolve(__dirname, 'shared')
+    return src("atoms/**/client/js/*.js")
+      .pipe(named((file) => file.relative.replace(/.js/g, "")))
+      .pipe(ws({
+        watch: false,
+        mode: isDeploy ? 'production' : 'development',
+        module: {
+            rules: [
+                {
+                    test: /\.css$/,
+                    loader: 'style!css'
+                },
+                {
+                    test: /\.js$/,
+                    exclude: /node_modules/,
+                    use: 'babel-loader'
+                },
+                {
+                  test: /\.jsx$/,
+                  exclude: /node_modules/,
+                  use: 'babel-loader'
+                },
+                {
+                    test: /\.html$/,
+                    use: 'raw-loader'
+                }
+            ]
+        },
+        devtool: 'source-map',
+        optimization : { minimizer: [new UglifyJsPlugin()] },
+        plugins: webpackPlugins,
+        resolve: {
+          alias: {
+            "shared": path.resolve(__dirname, 'shared'),
+            "data": path.resolve(__dirname, '../data')
           }
-        }),
-        resolve({
-          "mainFields": ["module", "main", "jsnext"]
-        }),
-        commonjs({
-          include: "node_modules/**"
-        }),
-        json({
-          compact: true,
-          preferConst: true
-        })
-    ]},
-    "iife"))
+        }
+    }, webpack))
+    .on('error', function handleError(e) {
+      this.emit('end'); // Recover from errors
+  })
     .pipe(rename((path) => {
-      path.dirname = path.dirname.replace(/client\/js/g, "");
-    }))
-    .pipe(template({
-      path: assetPath,
-      atomPath : `<%= atomPath %>`
-    }))
-    .pipe(isDeploy ? uglify() : gutil.noop())
+      path.dirname = path.dirname.replace(/client/g, "");
+    })) 
+    .pipe(replace('<%= path %>', assetPath))
     .pipe(dest(".build/"));
 }
 
 const buildCSS = () => {
   return src("atoms/**/client/css/*.scss")
+  .pipe(replace('<%= path %>', path))
     .pipe(sass({
       includePaths: [
         path.resolve(__dirname, 'shared/css')
@@ -122,7 +158,10 @@ const generate = (atom) => {
 }
 
 const _template = (x) => {
-  return x.replace(/<%= path %>/g, assetPath).replace(/<%= atomPath %>/g, `.`)
+  return x
+    .replace(/<%= path %>/g, assetPath)
+    .replace(/&lt;%= path %&gt;/g, assetPath)
+    .replace(/<%= atomPath %>/g, `.`)
 }
 
 const local = () => {
@@ -158,7 +197,7 @@ const serve = () => {
       'port': 8000
   });
 
-  watch(["atoms/**/*", "shared/**/*", "!**/*.scss"], series(build, local));
+  watch(["atoms/**/*", "shared/**/*", "!.scss"], series(build, local));
   watch(["atoms/**/*.scss","shared/**/*.scss"], series(buildCSS, local))
 }
 
@@ -188,15 +227,16 @@ const upload = () => {
     }
 
     return src(`.build/${atom}/*`)
-        .pipe(template({
-          path: assetPath,
-          atomPath : `${cdnUrl}/${s3Path}/${atom}/${version}`
-        }))
+    .pipe(replace('<%= path %>', assetPath))
+    .pipe(replace('&lt;%= path %&gt;', assetPath))
+    .pipe(replace('<%= atomPath %>', `${cdnUrl}/${s3Path}/${atom}/${version}`))
         .pipe(s3Upload('max-age=31536000', `${s3Path}/${atom}/${version}`))
-        .pipe(file('config.json', JSON.stringify(atomConfig)))
-        .pipe(file('preview', version))
-        .pipe(live ? file('live', version) : gutil.noop())
-        .pipe(s3Upload('max-age=30', `${s3Path}/${atom}`))
+        .on("end", () => {
+          return file('config.json', JSON.stringify(atomConfig))
+            .pipe(file('preview', version))
+            .pipe(live ? file('live', version) : gutil.noop())
+            .pipe(s3Upload('max-age=30', `${s3Path}/${atom}`))
+        })
   });
 
   uploadTasks.push(

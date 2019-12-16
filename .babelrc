@@ -1,17 +1,76 @@
 {
-  "presets": [
-    [
-      "@babel/preset-env",
-      {
-        "targets": "> 0.25%, not dead",
-        "useBuiltIns": "usage",
-        "corejs": "3"
-      }
-    ]
-  ],
-  "plugins": [
+  "env": {
+    "development": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": "> 0.25%, not dead",
+            "useBuiltIns": "usage",
+            "corejs": "3"
+          }
+        ],
+        "@babel/preset-react"
+  
+      ],
+      "plugins": [
+        "transform-import-bangtext-node",
+        "@babel/plugin-proposal-class-properties",
+        [
+          "@babel/plugin-transform-runtime",
+          {
+            "regenerator": true
+          }
+        ],
 
-  ]
+        [
+          "module-resolver", {
+            "root": ["."],
+            "alias": {
+              "react": "preact/compat",
+              "react-dom": "preact/compat"
+            }
+          }
+        ],
+        
+        "@babel/plugin-proposal-optional-chaining"
+      ]
+    },
+    "client": {
+      "presets": [
+        [
+          "@babel/preset-env",
+          {
+            "targets": "> 0.25%, not dead",
+            "useBuiltIns": "usage",
+            "corejs": "3"
+          }
+        ],
+        "@babel/preset-react"
+      ],
+      "plugins": [
+        "@babel/plugin-proposal-class-properties",
+        [
+          "module-resolver", {
+            "root": ["."],
+            "alias": {
+              "react": "preact/compat",
+              "react-dom": "preact/compat"
+            }
+          }
+        ]
+      ]
+    
+    }
+  }
 }
 
+
+
+
   
+
+
+
+
+ 
