@@ -148,7 +148,7 @@ const buildCSS = () => {
 };
 
 const assets = () => {
-  return src("assets/*")
+  return src("assets/**/*")
     .pipe(dest(".build/assets/"))
 }
 
