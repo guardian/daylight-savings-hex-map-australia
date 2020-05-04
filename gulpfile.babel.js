@@ -1,6 +1,5 @@
 const { series, dest, src, parallel, watch } = require("gulp");
 const del = require("del");
-const tap = require("gulp-tap");
 const gutil = require("gulp-util");
 const rename = require("gulp-rename");
 const requireUncached = require("require-uncached");
@@ -13,7 +12,6 @@ const file = require("gulp-file");
 sass.compiler = require("node-sass");
 const browserSync = require("browser-sync");3
 const browser = browserSync.create();
-const uglify = require("gulp-uglify")
 const cleanCSS = require('gulp-clean-css');
 const es = require('event-stream');
 const mergeStream = require('merge-stream');
@@ -95,9 +93,9 @@ const buildJS = () => {
                     use: 'babel-loader'
                 },
                 {
-                  test: /\.jsx$/,
-                  exclude: /node_modules/,
-                  use: 'babel-loader'
+                    test: /\.jsx$/,
+                    exclude: /node_modules/,
+                    use: 'babel-loader'
                 },
                 {
                     test: /\.html$/,
@@ -152,12 +150,6 @@ const assets = () => {
     .pipe(dest(".build/assets/"))
 }
 
-const generate = (atom) => {
-    return src("harness/*")
-      .pipe(template(atom))
-      .pipe(dest(".build/" + atom.atom))
-}
-
 const _template = (x) => {
   return x
     .replace(/<%= path %>/g, assetPath)
@@ -209,12 +201,6 @@ const s3Upload = (cacheControl, keyPrefix) => {
       'CacheControl': cacheControl,
       'keyTransform': fn => `${keyPrefix}/${fn}`
   });
-}
-
-function flatten(arr) {
-  return arr.reduce(function (flat, toFlatten) {
-    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
-  }, []);
 }
 
 const upload = () => {
@@ -280,6 +266,7 @@ const getLogs = async(cb) => {
 
 const build = series(clean, parallel(buildJS, buildCSS, render, assets));
 const deploy = series(build, upload)
+
 
 exports.build = build;
 exports.deploylive = deploy;
