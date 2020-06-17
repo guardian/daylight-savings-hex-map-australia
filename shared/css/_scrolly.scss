@@ -1,3 +1,9 @@
+.ios, .android {
+    .article {
+        overflow: visible !important;
+    }
+}
+
 .scroll-wrapper {
     @include mq(tablet) {
         width: 740px;
