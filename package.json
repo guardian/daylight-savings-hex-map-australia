@@ -9,6 +9,16 @@
   },
   "author": "",
   "license": "ISC",
+  "browserslist": [
+    "defaults",
+    "IE 11",
+    "Firefox 46",
+    "Chrome 49",
+    "Edge 13",
+    "Safari 8",
+    "Opera 27",
+    "OperaMini 5"
+  ],
   "devDependencies": {
     "@babel/core": "^7.6.4",
     "@babel/plugin-proposal-class-properties": "^7.7.0",
@@ -21,6 +31,7 @@
     "gulp": "^4.0.2",
     "gulp-clean-css": "^4.2.0",
     "gulp-file": "^0.4.0",
+    "gulp-postcss": "^9.0.0",
     "gulp-rename": "^1.4.0",
     "gulp-s3-upload": "^1.7.3",
     "gulp-sass": "^4.0.2",
@@ -30,6 +41,7 @@
     "gulp-util": "^3.0.8",
     "merge-stream": "^2.0.0",
     "node-sass": "^4.13.0",
+    "postcss": "^8.1.4",
     "preact": "^10.0.4",
     "require-uncached": "^2.0.0",
     "sass-mq": "^5.0.1",
@@ -38,6 +50,7 @@
     "webpack-stream": "^5.2.1"
   },
   "dependencies": {
+    "autoprefixer": "^10.0.1",
     "@babel/node": "^7.8.7",
     "@babel/plugin-proposal-optional-chaining": "^7.7.5",
     "@babel/plugin-transform-runtime": "^7.7.6",
