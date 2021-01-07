@@ -2,8 +2,62 @@
 @import "mq";
 @import "palette";
 // @import "enhancer";
-
 .interactive-atom {
     margin: 0;
     padding: 0;
+}
+
+svg {
+    overflow: visible;
+    margin-bottom: 50px;
+    margin-left: 50px;
+}
+
+.tick {
+    @include fs-textSans(1);
+    line {
+        stroke: $gu-grey-3;
+    }
+    text {
+        fill: $gu-grey-3;
+    }
+}
+
+.gv-y-axis {
+    .domain {
+        display: none;
+    }
+    .tick {
+        line {
+            stroke-dasharray: 1;
+        }
+        text {
+            transform: translate(20px, -12px)
+        }
+    }
+}
+
+.gv-x-axis {
+    .domain {
+        stroke: $gu-grey-3;
+    }
+}
+
+.gv-blob {
+    display: inline-block;
+    width: 7px;
+    height: 11px;
+    margin-right: 4px;
+    border-radius: 2px;
+    background-color: lightblue;
+}
+
+.gv-chart-heading {
+    @include fs-headline(2);
+    font-weight: 700;
+}
+
+.gv-key-label,
+.gv-source {
+    @include fs-textSans(2)
 }
