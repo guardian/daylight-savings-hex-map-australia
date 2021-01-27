@@ -2,8 +2,55 @@
 @import "mq";
 @import "palette";
 // @import "enhancer";
-
 .interactive-atom {
-    margin: 0;
-    padding: 0;
+    // padding: 0;
+    // width: 138pt;
+    margin-bottom: 30px;
+}
+
+.one-col,
+.two-col {
+    padding-left: 6px;
+    padding-right: 6px;
+    // padding: 0;
+    // width: 138pt;
+    border-left: 0.3px solid black;
+    border-top: 0.3px solid black;
+}
+
+.one-col {
+    width: 138pt
+}
+
+.two-col {
+    width: 288pt
+}
+
+.headline {
+    // font-family: 'Text Egyptian Bold', monospace !important;
+    font-size: 8pt !important;
+    line-height: 9.6pt !important;
+}
+
+.axis-x-text {
+    font-size: 6pt !important;
+    line-height: 7.2pt !important;
+}
+
+.axis-y-text {
+    font-size: 6pt !important;
+    line-height: 7.2pt !important;
+}
+
+footer {
+    border-top: 0.3px solid black;
+    border-bottom: none;
+    font-size: 6pt !important;
+    line-height: 7.2pt !important;
+}
+
+@media print {
+    input {
+        display: none;
+    }
 }
