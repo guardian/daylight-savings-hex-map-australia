@@ -12,10 +12,10 @@ You need to have the Guardian app on a phone and access to composer.
 4. In preview click “Get app preview link” in the menu bar at the top 
 5. A link will have been sent to your email. Open this on a device with the Guardian app, it should open in the app and you can check how it works 
 
-✅ works for final checks 
-✅ closest to live environment
-❌ no error messages - hard to debug
-❌ feedback loop is slow, have to redeploy - trying out how things work
+- ✅ works for final checks 
+- ✅ closest to live environment
+- ❌ no error messages - hard to debug
+- ❌ feedback loop is slow, have to redeploy - trying out how things work
 
 
 
@@ -28,7 +28,7 @@ You still need to deploy and use a preview link, but can debug more easily with 
 2. Install the iOS Simulator 
 
 3. Install a build of the app. Ideally you should be able to go to [https://builds.gutools.co.uk/](https://builds.gutools.co.uk/) and download the builds of the latest dev version.
-BUT - (as of March 2021) iOS link is no longer working from this page. Contact apps team can send this to you, if you give them your UDID - they can send it over as a zip file - .ipa file.
+  BUT - (as of March 2021) iOS link is no longer working from this page. Contact apps team can send this to you, if you give them your UDID - they can send it     over as a zip file - .ipa file.
 
 To build an .ipa file: 
 
