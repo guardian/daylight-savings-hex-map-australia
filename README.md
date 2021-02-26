@@ -9,8 +9,15 @@ Install node modules: `npm i`
 
 To run locally: `npm start` or `gulp`.  
 
+### Testing
+
+To test on the Guardian apps - follow our 
+[Testing in Apps guide here](https://github.com/guardian/interactive-atom-template-2019/docs/guide-to-apps-testing.md)
+
 
 ### Deploy to S3
+
+To deploy to the Interactives S3 bucket you need AWS credentials for the Interactives account in your command line. You can get these from the Guardian's permissions manager system [Janus](https://janus.gutools.co.uk/). You need to be assigned these permissions and be on a Guardian network or VPN to see them on Janus. 
 
 Fill out config.json:
 
