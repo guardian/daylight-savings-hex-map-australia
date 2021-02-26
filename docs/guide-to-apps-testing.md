@@ -27,19 +27,15 @@ You still need to deploy and use a preview link, but can debug more easily with 
 
 2. Install the iOS Simulator 
 
-3. Install a build of the app. Ideally you should be able to go to [https://builds.gutools.co.uk/](https://builds.gutools.co.uk/) and download the builds of the latest dev version.
-  BUT - (as of March 2021) iOS link is no longer working from this page. Contact apps team can send this to you, if you give them your UDID - they can send it     over as a zip file - .ipa file.
+3. Install a build of the app. Ideally you should be able to go to [https://builds.gutools.co.uk/](https://builds.gutools.co.uk/) and download the builds of the latest dev version. BUT - (as of March 2021) iOS link is no longer working from this page. Contact apps team can send this to you, if you give them your UDID - they can send it     over as a zip file - .ipa file.
 
 To build an .ipa file: 
-
 On a device - the new .ipa file will just open
 To install the build follow [these instructions](https://codeburst.io/latest-itunes-12-7-removed-the-apps-option-how-to-install-ipa-on-the-device-3c7d4a2bc788?gi=5439d1ba0757 )
-
 On a simulator - you need to build the .ipa (takes about an hour) then can run this on your simulator. [More information here.](https://stackoverflow.com/questions/517463/how-can-i-install-a-ipa-file-to-my-iphone-simulator#:~:text=You%20cannot%20run%20an%20ipa,the%20simulator%20on%20their%20machine)
 .
 
 4. Get a preview link as above and paste it into the browser on your device or inside the simulator and it will ask to open in the app.
-
 
 5. Once you have the page open, you can debug by opening Safari on your laptop and selecting your simulator to open a debugging window.
 
@@ -62,21 +58,11 @@ Instructions [with pictures here](https://docs.google.com/document/d/18XaqGm_A6k
 
 2. Go to [https://builds.gutools.co.uk](https://builds.gutools.co.uk) and click "install build" under Android - it will download to your downloads folder. (note you may have to be within the developers' VPN to do this, but getting there is less bother than you may think, and you can do it with your login for the editorial VPN. Ask Sean how).
 
-3. Open Android studio and go to File > Profile or debug APK
+3. Open Android studio and go to File > Profile or debug APK. Then, in the next dialogue box, choose the APK you just downloaded.
 
-Then, in the next dialogue box, choose the APK you just downloaded.
+4. Choose what device you want to emulate it on. This happens in a box in the top middle-right of the window. There may be a default but if you open the AVD manager you'll get the option to set up various types of emulated devices, so you can see what it looks like on a tablet as well as a phone. Once you've chosen a device, hit the green button to run the app on that device. The emulator will spring up in a new window. At this point you will have to sign in and get preview keys in the same way that you would do with a physical test device. 
 
-4. Choose what device you want to emulate it on. This happens in a box in the top middle-right of the window:
-
-There may be a default but if you open the AVD manager you'll get the option to set up various types of emulated devices, so you can see what it looks like on a tablet as well as a phone. 
-
-Once you've chosen a device, hit the green button to run the app on that device. The emulator will spring up in a new window. At this point you will have to sign in and get preview keys in the same way that you would do with a physical test device. 
-
-5. Now open chrome and go to:  chrome://inspect/#devices
-
-You should see a list under the title "Remote Targets".
-
-If you click 'inspect' under the first entry in that list ("Article") you should be in the familiar chrome devtools environment and able to see console logs or inspect elements and styles.
+5. Now open chrome and go to:  chrome://inspect/#devices You should see a list under the title "Remote Targets". If you click 'inspect' under the first entry in that list ("Article") you should be in the familiar chrome devtools environment and able to see console logs or inspect elements and styles.
 
 
 - ✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
@@ -102,10 +88,10 @@ If you click 'inspect' under the first entry in that list ("Article") you should
 
 
 ## Side note: 
-### Mobile browser testing 
+### Mobile browser testing options
 
-With a simulator or a device connected to your computer you can open a localhost link in the phone browser and view the debug console 
+- With a simulator or a device connected to your computer you can open a localhost link in the phone browser and view the debug console 
 
-Using a portforwarding tool so you can “deploy” (or forward) your localhost to a url that can then be opened on a phone browser 
+- Using a portforwarding tool so you can “deploy” (or forward) your localhost to a url that can then be opened on a phone browser 
 
 
