@@ -2,7 +2,8 @@ Guide to Testing Interactives on Apps
 =====================================
 
 
-## Option 1: deploy and view on device with a preview link 
+
+## 1: deploy and view on device with a preview link 
  
 You need to have the Guardian app on a phone and access to composer.
 
@@ -19,7 +20,9 @@ You need to have the Guardian app on a phone and access to composer.
 
 
 
-## Option 2A : use a simulator on your computer - iOS 
+
+
+## 2A : use a simulator on your computer - iOS 
 
 You still need to deploy and use a preview link, but can debug more easily with a Simulator 
 
@@ -50,7 +53,10 @@ Select the article’s app view and you should see the article’s preview and t
 - ❌ feedback loop is slow, have to redeploy when trying out how things work
 
 
-## Option 2B: use a simulator on your computer - Android 
+
+
+
+## 2B: use a simulator on your computer - Android 
 
 Instructions [with pictures here](https://docs.google.com/document/d/18XaqGm_A6kQGIjTz7adHwwUJ6vY6l_DOkAevasi95UU/edit). 
 
@@ -72,7 +78,9 @@ Instructions [with pictures here](https://docs.google.com/document/d/18XaqGm_A6k
 - ❌ feedback loop is slow, have to redeploy when trying out how things work
 
 
-## Option 3: plug your physical device into the laptop, debug with Safari (apple) or Chrome (android)
+
+
+## 3: plug your physical device into the laptop, debug with Safari (apple) or Chrome (android)
 
 1. Plug your physical device into your computer. Accept any software updates and you need to let the phone trust the computer 
 
@@ -85,6 +93,8 @@ Instructions [with pictures here](https://docs.google.com/document/d/18XaqGm_A6k
 - ✅ test actual touch gestures on a real device 
 - ❌ feedback loop is slow, have to redeploy when trying out how things work
 - ❌ have to have the device
+
+
 
 
 ## Side note: 
