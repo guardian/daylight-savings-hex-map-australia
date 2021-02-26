@@ -35,7 +35,6 @@ To build an .ipa file:
 On a device - the new .ipa file will just open
 To install the build follow [these instructions](https://codeburst.io/latest-itunes-12-7-removed-the-apps-option-how-to-install-ipa-on-the-device-3c7d4a2bc788?gi=5439d1ba0757 )
 
-
 On a simulator - you need to build the .ipa (takes about an hour) then can run this on your simulator. [More information here.](https://stackoverflow.com/questions/517463/how-can-i-install-a-ipa-file-to-my-iphone-simulator#:~:text=You%20cannot%20run%20an%20ipa,the%20simulator%20on%20their%20machine)
 .
 
@@ -44,15 +43,15 @@ On a simulator - you need to build the .ipa (takes about an hour) then can run t
 
 5. Once you have the page open, you can debug by opening Safari on your laptop and selecting your simulator to open a debugging window.
 
-Safari > Develop > Simulator - Device name - iOS version > Automatically show Web Inspector for JSContexts 
+**Safari > Develop > Simulator - Device name - iOS version > Automatically show Web Inspector for JSContexts** 
 
 Select the article’s app view and you should see the article’s preview and the dom tree in a safari window. From here you should be able to inspect and even modify the dom to see what a change would look like. You will still need to deploy the atoms and reopen the app’s link to see the new changes come through (there is no localhost/hot reload functionality).
 
 
-✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
-✅ don’t need a device
-✅ can do mobile browser testing too - go to localhost in simulator web browser
-❌ feedback loop is slow, have to redeploy when trying out how things work
+- ✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
+- ✅ don’t need a device
+- ✅ can do mobile browser testing too - go to localhost in simulator web browser
+- ❌ feedback loop is slow, have to redeploy when trying out how things work
 
 
 ## Option 2B: use a simulator on your computer - Android 
@@ -80,11 +79,11 @@ You should see a list under the title "Remote Targets".
 If you click 'inspect' under the first entry in that list ("Article") you should be in the familiar chrome devtools environment and able to see console logs or inspect elements and styles.
 
 
-✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
-✅ don’t need a device
-✅ can check lots of different simulated devices
-✅ can do mobile browser testing too - go to localhost in simulator web browser
-❌ feedback loop is slow, have to redeploy when trying out how things work
+- ✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
+- ✅ don’t need a device
+- ✅ can check lots of different simulated devices
+- ✅ can do mobile browser testing too - go to localhost in simulator web browser
+- ❌ feedback loop is slow, have to redeploy when trying out how things work
 
 
 ## Option 3: plug your physical device into the laptop, debug with Safari (apple) or Chrome (android)
@@ -95,11 +94,11 @@ If you click 'inspect' under the first entry in that list ("Article") you should
 
 3. Works the same way as the Simulator from here 
 
-✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
-✅ can do mobile browser testing too - go to localhost in simulator web browser
-✅ test actual touch gestures on a real device 
-❌ feedback loop is slow, have to redeploy when trying out how things work
-❌ have to have the device
+- ✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
+- ✅ can do mobile browser testing too - go to localhost in simulator web browser
+- ✅ test actual touch gestures on a real device 
+- ❌ feedback loop is slow, have to redeploy when trying out how things work
+- ❌ have to have the device
 
 
 ## Side note: 
