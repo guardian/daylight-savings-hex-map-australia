@@ -83,11 +83,9 @@ Instructions [with pictures here](https://docs.google.com/document/d/18XaqGm_A6k
 
 2. Install a dev build of the Guardian app to your device (this will have a yellow not blue icon). Ideally you should be able to go to [https://builds.gutools.co.uk/](https://builds.gutools.co.uk/) and download the builds of the latest dev version. BUT - (as of March 2021) iOS link is no longer working from this page. Contact apps team can send this to you, if you give them your UDID - they can send it over as a zip file - .ipa file. This [guide can help you find your device's UDID](https://www.sourcefuse.com/blog/how-to-find-udid-in-the-new-iphone-xs-iphone-xr-and-iphone-xs-max/).
 
-To build an .ipa file: 
-On a device - the new .ipa file will just open
-To install the build follow the 'using xcode' section in [these instructions](https://codeburst.io/latest-itunes-12-7-removed-the-apps-option-how-to-install-ipa-on-the-device-3c7d4a2bc788?gi=5439d1ba0757 )
+To install the build on your phone follow the 'using xcode' section in [these instructions](https://codeburst.io/latest-itunes-12-7-removed-the-apps-option-how-to-install-ipa-on-the-device-3c7d4a2bc788?gi=5439d1ba0757 )
 
-3. Use the relevant browser to open and access the device's console logs.
+3. Use the relevant browser to open and access the device's console logs (as above). You will need to [enable web inspector](https://www.wikihow.com/Use-Web-Inspector-on-an-iPhone) on an iPhone's Safari menu. 
 
 
 
