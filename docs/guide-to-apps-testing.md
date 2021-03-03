@@ -46,7 +46,7 @@ Select the article’s app view and you should see the article’s preview and t
 
 - ✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
 - ✅ don’t need a device
-- ✅ can do mobile browser testing too - go to localhost in simulator web browser
+- ✅ can check different simulated devices
 - ❌ feedback loop is slow, have to redeploy when trying out how things work
 - ❌ your MacOS needs to be kept at the latest or next to latest version
 
@@ -71,8 +71,7 @@ Instructions [with pictures here](https://docs.google.com/document/d/18XaqGm_A6k
 
 - ✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
 - ✅ don’t need a device
-- ✅ can check lots of different simulated devices
-- ✅ can do mobile browser testing too - go to localhost in simulator web browser
+- ✅ can check different simulated devices
 - ❌ feedback loop is slow, have to redeploy when trying out how things work
 
 
@@ -93,11 +92,10 @@ To install the build follow [these instructions](https://codeburst.io/latest-itu
 
 
 - ✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
-- ✅ can do mobile browser testing too - go to localhost in simulator web browser
 - ✅ test actual touch gestures on a real device 
+- ✅ (for iOS) don't need to keep updating your MacOS system 
 - ❌ feedback loop is slow, have to redeploy when trying out how things work
 - ❌ have to have the device
-
 
 
 
