@@ -26,7 +26,7 @@ You need to have the Guardian app on a phone and access to composer.
 
 You still need to deploy and use a preview link, but can debug more easily with a Simulator 
 
-1. Install Xcode. iOS Simulator is a part of Xcode. As a Mac user you can download and install Xcode for free from App Store. You may need to upgrade to a more recent version of MacOS. (This is a reason to use a device if possible rather than a simulator - simulators require Xcode to be at a very recent version which means you constantly have to update your computer's MacOS.)
+1. Install Xcode. As a Mac user you can download and install Xcode for free from App Store - however you need an Apple account (If you want to use your device later it will help to use the same account you have on your device). You may need to upgrade to a more recent version of MacOS. (This is a reason to use a device if possible rather than a simulator - simulators require Xcode to be at a very recent version which means you constantly have to update your computer's MacOS.)
 
 2. The iOS Simulator is part of XCode. Open Xcode and you should see an option to open the simulator
 
