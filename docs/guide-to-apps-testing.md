@@ -85,7 +85,7 @@ Instructions [with pictures here](https://docs.google.com/document/d/18XaqGm_A6k
 
 To build an .ipa file: 
 On a device - the new .ipa file will just open
-To install the build follow [these instructions](https://codeburst.io/latest-itunes-12-7-removed-the-apps-option-how-to-install-ipa-on-the-device-3c7d4a2bc788?gi=5439d1ba0757 )
+To install the build follow the 'using xcode' section in [these instructions](https://codeburst.io/latest-itunes-12-7-removed-the-apps-option-how-to-install-ipa-on-the-device-3c7d4a2bc788?gi=5439d1ba0757 )
 
 3. Use the relevant browser to open and access the device's console logs.
 
