@@ -14,6 +14,8 @@ To run locally: `npm start` or `gulp`.
 To test on the Guardian apps - follow our 
 [Testing in Apps guide here](https://github.com/guardian/interactive-atom-template-2019/docs/guide-to-apps-testing.md)
 
+To test with dark mode on apps - see [Testing in Dark Mode](https://github.com/guardian/interactive-atom-template-2019/docs/dark-mode-in-apps.md)
+
 
 ### Deploy to S3
 
