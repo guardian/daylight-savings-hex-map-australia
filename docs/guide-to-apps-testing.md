@@ -2,6 +2,17 @@ Guide to Testing Interactives on Apps
 =====================================
 
 
+## HTML/CSS/JS issues in Apps Rendering 
+
+If Apps Rendering has been rolled out (expected April 2021) it will be much easier to debug pieces that have gone live. 
+
+1) Take a live guardian url 
+2) Open the Teleporter extension and click "Apps Rendering" - this view replicates the React html/css/js that is inserted into the shell of the native app. 
+3) Debug as normal using your browser console.
+
+This should cover most html/css/js issues. Issues that relate to the native app code (eg certain touch events) will need to be tested out with a device or simulator as below. 
+
+Ideally Apps Rendering will be added to Preview so you can test out issues before a piece goes live - but there isn't a date for this yet. Until this happens, draft articles will need to be tested out using methods below. 
 
 ## Option 1: deploy and view on device with a preview link 
  
@@ -20,9 +31,27 @@ You need to have the Guardian app on a phone and access to composer.
 
 
 
+## Option 2: plug your physical device into the laptop, debug with Safari (apple) or Chrome (android)
+
+1. Plug your physical device into your computer. Accept any software updates and you need to let the phone trust the computer 
+
+2. Install a dev build of the Guardian app to your device (this will have a yellow not blue icon). Ideally you should be able to go to [https://builds.gutools.co.uk/](https://builds.gutools.co.uk/) and download the builds of the latest dev version. BUT - (as of March 2021) iOS link is no longer working from this page. Contact apps team can send this to you, if you give them your UDID - they can send it over as a zip file - .ipa file. This [guide can help you find your device's UDID](https://www.sourcefuse.com/blog/how-to-find-udid-in-the-new-iphone-xs-iphone-xr-and-iphone-xs-max/).
+
+To install the build on your phone follow the 'using xcode' section in [these instructions](https://codeburst.io/latest-itunes-12-7-removed-the-apps-option-how-to-install-ipa-on-the-device-3c7d4a2bc788?gi=5439d1ba0757 )
+
+3. Use the relevant browser to open and access the device's console logs (as above). You will need to [enable web inspector](https://www.wikihow.com/Use-Web-Inspector-on-an-iPhone) on an iPhone's Safari menu. 
 
 
-## Option 2A : use a simulator on your computer - iOS 
+
+- ✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
+- ✅ test actual touch gestures on a real device 
+- ✅ (for iOS) don't need to keep updating your MacOS system 
+- ❌ feedback loop is slow, have to redeploy when trying out how things work
+- ❌ have to have the device
+
+
+
+## Option 3A : use a simulator on your computer - iOS 
 
 You still need to deploy and use a preview link, but can debug more easily with a Simulator 
 
@@ -54,7 +83,7 @@ Select the article’s app view and you should see the article’s preview and t
 
 
 
-## Option 2B: use a simulator on your computer - Android 
+## Option 3B: use a simulator on your computer - Android 
 
 Instructions [with pictures here](https://docs.google.com/document/d/18XaqGm_A6kQGIjTz7adHwwUJ6vY6l_DOkAevasi95UU/edit). 
 
@@ -76,24 +105,6 @@ Instructions [with pictures here](https://docs.google.com/document/d/18XaqGm_A6k
 
 
 
-
-## Option 3: plug your physical device into the laptop, debug with Safari (apple) or Chrome (android)
-
-1. Plug your physical device into your computer. Accept any software updates and you need to let the phone trust the computer 
-
-2. Install a dev build of the Guardian app to your device (this will have a yellow not blue icon). Ideally you should be able to go to [https://builds.gutools.co.uk/](https://builds.gutools.co.uk/) and download the builds of the latest dev version. BUT - (as of March 2021) iOS link is no longer working from this page. Contact apps team can send this to you, if you give them your UDID - they can send it over as a zip file - .ipa file. This [guide can help you find your device's UDID](https://www.sourcefuse.com/blog/how-to-find-udid-in-the-new-iphone-xs-iphone-xr-and-iphone-xs-max/).
-
-To install the build on your phone follow the 'using xcode' section in [these instructions](https://codeburst.io/latest-itunes-12-7-removed-the-apps-option-how-to-install-ipa-on-the-device-3c7d4a2bc788?gi=5439d1ba0757 )
-
-3. Use the relevant browser to open and access the device's console logs (as above). You will need to [enable web inspector](https://www.wikihow.com/Use-Web-Inspector-on-an-iPhone) on an iPhone's Safari menu. 
-
-
-
-- ✅ able to inspect and query the DOM, test out inspector changes and see errors in the console
-- ✅ test actual touch gestures on a real device 
-- ✅ (for iOS) don't need to keep updating your MacOS system 
-- ❌ feedback loop is slow, have to redeploy when trying out how things work
-- ❌ have to have the device
 
 
 
