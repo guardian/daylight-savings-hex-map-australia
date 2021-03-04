@@ -8,16 +8,20 @@ NB: This guide will work for app pages rendered through the new Apps Rendering p
 
 ## Where the white background is set 
 
-The apps-rendering platform CSS reaches into the iFrame that hosts the interactive and sets the `background-color` of the `body` to white. [Code here](https://github.com/guardian/apps-rendering/blob/2436d412831ff14a0709b1813fd0421c95eb3663/src/components/atoms/interactiveAtom.tsx#L37).
+The Apps-Rendering platform CSS reaches into the iframe that hosts the interactive and sets the `background-color` of the `body` to white. [Code here](https://github.com/guardian/apps-rendering/blob/2436d412831ff14a0709b1813fd0421c95eb3663/src/components/atoms/interactiveAtom.tsx#L37).
 
-You can view this in action by opening a published page in the apps-rendering view: Guardian article > Teleporter > apps-rendering. Inspect the body element of the iframe that hosts your interactive. 
+You can view this in action by opening a published page in the apps-rendering view: 
 
-The background-color attribute is set behind a dark-mode media query so you will only see this in Inspector if you have set your browser or Macbook to dark mode. To do this on your Mac go to System Preferences > General > Appearance > Dark. The apps-rendering page should now be in dark-mode and you should be able to see that all atoms have a white background. 
+**Guardian article > Teleporter > apps-rendering**
+
+Inspect the body element of the iframe that hosts your interactive. 
+
+The background-color attribute is set behind a dark-mode media query so you will only see this in Inspector if you have set your browser or Macbook to dark mode. To do this on your Mac go to **System Preferences > General > Appearance > Dark**. The apps-rendering page should now be in dark-mode and you should be able to see that all atoms have a white background. 
 
 
 ## Overriding the white background and adding dark-mode styles 
 
-Your interactives CSS needs to set the `background-color` of the `body` more forcibly. You will need to use something like: 
+Your interactives CSS needs to set the `background-color` of the `body` more forcibly than the Apps-Rendering CSS. You will need to use something like: 
 
 ```
 @media (prefers-color-scheme: dark) {
