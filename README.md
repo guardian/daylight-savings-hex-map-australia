@@ -9,13 +9,9 @@ Install node modules: `npm i`
 
 To run locally: `npm start` or `gulp`.  
 
-### Testing
+### Create a new atom 
 
-To test on the Guardian apps - follow our 
-[Testing in Apps guide here](https://github.com/guardian/interactive-atom-template-2019/blob/master/docs/guide-to-apps-testing.md)
-
-To test with dark mode on apps - see [Testing in Dark Mode](https://github.com/guardian/interactive-atom-template-2019/blob/master/docs/dark-mode-in-apps.md)
-
+Duplicate an existing atom. Remember to change the path in the server/render.js file to point to the html file in the new atom. 
 
 ### Deploy to S3
 
@@ -38,9 +34,12 @@ Get the deployed links: `gulp url`
 The link can be pasted into a Composer file 
 
 
-### Create a new atom 
+### Testing in apps
 
-Duplicate an existing atom. Remember to change the path in the server/render.js file to point to the html file in the new atom. 
+To test on the Guardian apps - follow our 
+[Testing in Apps guide here](https://github.com/guardian/interactive-atom-template-2019/blob/master/docs/guide-to-apps-testing.md)
+
+To test with dark mode on apps - see [Testing in Dark Mode](https://github.com/guardian/interactive-atom-template-2019/blob/master/docs/dark-mode-in-apps.md)
 
 
 ### Loading resources (e.g. assets)
