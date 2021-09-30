@@ -292,6 +292,9 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 
 		var sunDiff = intervalEnd - intervalStart
 
+		var sunriseLocal = DateTime.fromISO(sunrise.toISO().split("+")[0])
+		var sunsetLocal = DateTime.fromISO(sunset.toISO().split("+")[0])
+
 		return { "timeDiff": timeDiff, 
 				"timeDiffStr": Duration.fromMillis(timeDiff).toFormat('hh:mm:ss'), 
 				"sunDiff": sunDiff,
@@ -299,7 +302,9 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 				"sunriseStr":sunrise.toISO(),
 				"sunrise": sunrise,
 				"sunsetStr":sunset.toISO(),
-				"sunset": sunset
+				"sunset": sunset,
+				"sunriseLocal":sunriseLocal,
+				"sunsetLocal":sunsetLocal
 			}
 
 	}
@@ -315,7 +320,7 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 		// console.log("sunrise", sunrise)
 
 		var localSunrise = DateTime.fromJSDate(sunrise, { zone: timeZone})
-		
+
 		// console.log("timezone sunrise", localSunrise.toISO())
 
 		var sunset = suncalc.getTimes(date, latlon[1], latlon[0]).sunset
@@ -345,11 +350,11 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 
 	// Sydney sunrise 07:00 sunset 16:54 in winter
 
-	console.log("Syd", getSunHours(time, [151.208755,-33.870453], 'NSW'))
+	// console.log("Syd", getSunHours(time, [151.208755,-33.870453], 'NSW'))
 
 	// Brisbane -27.3911734,152.7832068
 
-	console.log("Bris", getSunHours(time, [152.7832068,-27.3911734], 'QLD'))
+	// console.log("Bris", getSunHours(time, [152.7832068,-27.3911734], 'QLD'))
 
 	var daylightColors = ['#bd0026','#ffeda0']
 
@@ -364,6 +369,7 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 		d.properties.centroid = projection.invert(path.centroid(d))
 		// d.properties.sunHoursWinter = getSunHours(winter, d.properties.centroid, d.properties.state)
 		d.properties.daylight = getSunHours(time, d.properties.centroid, d.properties.state)
+
 	})
 
 	var colorScale = d3.scaleLinear()
@@ -371,10 +377,14 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 		.range(daylightColors)
 
 	var sunriseScale = d3.scaleTime()
-		.domain(d3.extent(geo, d => d.properties.daylight.sunrise))
-		.range(sunriseColors)		
+		.domain(d3.extent(geo, d => d.properties.daylight.sunriseLocal))
+		.range(sunriseColors)
 
-	console.log(sunriseScale.domain(), sunriseScale.range())	
+	var sunriseAESTScale = d3.scaleTime()
+		.domain(d3.extent(geo, d => d.properties.daylight.sunrise))
+		.range(sunriseColors)			
+
+	// console.log(sunriseScale.domain(), sunriseScale.range())	
 
 	features.append("g")
 		.selectAll("path")
@@ -388,7 +398,11 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 			}
 			
 			else if (mapType === "sunrise") {
-				return sunriseScale(d.properties.daylight.sunrise)
+				return sunriseScale(d.properties.daylight.sunriseLocal)
+			}
+
+			else if (mapType === "sunriseAEST") {
+				return sunriseAESTScale(d.properties.daylight.sunrise)
 			}
 		})
 		.attr("d", path)
@@ -418,6 +432,8 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 
 	function makeKey() {
 
+		const formatTime = d3.timeFormat("%H:%M");
+
 		context.select("#chartKey").html("")
 		var keyWidth = width * 0.3
 
@@ -444,9 +460,14 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 			
 		}
 
-		else {
-			keyText1 = sunriseScale.domain()[0]
-			keyText2 = sunriseScale.domain()[1]
+		else if (mapType === "sunrise") {
+			keyText1 = formatTime(sunriseScale.domain()[0])
+			keyText2 = formatTime(sunriseScale.domain()[1])
+		}
+
+		else if (mapType === "sunriseAEST") {
+			keyText1 = formatTime(sunriseAESTScale.domain()[0])
+			keyText2 = formatTime(sunriseAESTScale.domain()[1])
 		}
 
 		var keyLeftMargin = 0

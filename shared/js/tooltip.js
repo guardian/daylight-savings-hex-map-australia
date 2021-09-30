@@ -22,8 +22,6 @@ function makeTooltip(el, ttcontext) {
 		//console.log("maxDaylight", d.properties.daylight.timeDiffStr)
 
 		var text = `<b>${d.properties.state}</b><br>Daylight hours:${d.properties.daylight.sunDiffStr}`
-
-		console.log(`<b>${d.properties.state}</b><br>Daylight hours:${d.properties.daylight.sunDiffStr}`)
 		
 		tooltip.transition()
 			.duration(200)
