@@ -1,17 +1,20 @@
 import { makeMap } from "shared/js/map";
 import { DateTime } from "luxon"
 
+
 Promise.all([
 	fetch(`<%= path %>/aus-hex-grid.json`).then(res => res.json())
 ])
 .then((results) =>  {
-	makeMap(results[0],'morning', 'Daylight hours 5am to 9am', false, DateTime.local(2021, 12, 22, 18), "normal", true, "daylight", "T05:00", "T09:00")
+
+	const d1 = JSON.parse(JSON.stringify(results[0]))
+	const d2 = JSON.parse(JSON.stringify(results[0]))
+	makeMap(d1,'morning', 'Daylight hours 5am to 9am', false, DateTime.local(2021, 12, 22, 18), "normal", true, "daylight", "T05:00", "T09:00")
 	// makeMap(results[0],'waking','Daylight hours 6:45am to 10:45pm', false, DateTime.local(2021, 12, 22, 18), "normal", true, "daylight", "T06:45", "T22:45")
-	makeMap(results[0],'evening', 'Daylight hours 5pm to 9pm', false, DateTime.local(2021, 12, 22, 18), "normal", true, "daylight", "T17:00", "T21:00")
+	makeMap(d2,'evening', 'Daylight hours 5pm to 9pm', false, DateTime.local(2021, 12, 22, 18), "normal", true, "daylight", "T17:00", "T21:00")
 });
 
-
-
+//data, targetId, headline="", controls, time=DateTime.local(2021, 12, 22, 18), savings="normal", timezones=true, mapType="daylight", startTimeStr="T06:45", endTimeStr="T22:45"
 
 
 //makeMap(data, targetId, controls, time=DateTime.local(2021, 12, 22, 18), savings="normal", timezones=true, mapType="daylight", startTimeStr="T06:45", endTimeStr="T22:45")

@@ -7,10 +7,10 @@ import * as suncalc from "suncalc"
 import { makeTooltip } from 'shared/js/tooltip';
 
 export function makeMap(data, targetId, headline="", controls, time=DateTime.local(2021, 12, 22, 18), savings="normal", timezones=true, mapType="daylight", startTimeStr="T06:45", endTimeStr="T22:45") {
-	console.log("geo",geo)
-	const container = d3.select(`#${targetId} #graphicContainer`)
+
+	const container = d3.select(`#${targetId} #graphicContainer_${targetId}`)
 	const context = d3.select(`#${targetId}`)
-	console.log(data)
+
 	var isMobile;
 	var windowWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
 
@@ -22,19 +22,19 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 			isMobile = false;
 	}
 
-	var width = document.querySelector(`#${targetId} #graphicContainer`).getBoundingClientRect().width
+	var width = document.querySelector(`#${targetId} #graphicContainer_${targetId}`).getBoundingClientRect().width
 	var height = width*0.6				
 	var margin = {top: 0, right: 0, bottom: 0, left:0}
 	
-    context.select("#graphicContainer svg").remove();
+    context.select(`#graphicContainer_${targetId} svg`).remove();
     
     var chartKey = context.select("#chartKey");
 	chartKey.html("");
 
-	var svg = context.select("#graphicContainer").append("svg")
+	var svg = context.select(`#graphicContainer_${targetId}`).append("svg")
 				.attr("width", width + margin.left + margin.right)
 				.attr("height", height + margin.top + margin.bottom)
-				.attr("id", "svg")
+				.attr("id", `svg_${targetId}`)
 				.attr("overflow", "hidden");					
 
 	context.select(".chartMultiTitle").text(headline)			
@@ -381,7 +381,7 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 		.data(geo)
 		.enter()
 		.append("path")
-		.attr("class", "hex")
+		.attr("class", `hex_${targetId}`)
 		.attr("fill", function(d) {
 			if (mapType === "daylight") {
 				return colorScale(d.properties.daylight.sunDiff)
@@ -393,7 +393,7 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 		})
 		.attr("d", path)
 
-	makeTooltip(`.hex`, targetId);	
+	makeTooltip(`.hex_${targetId}`, targetId);	
 	makeKey()
 
 
@@ -499,9 +499,7 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 	     //    .attr("text-anchor", "start")
 	     //    .attr("y", 15)
 	     //    .attr("class", "keyLabel").text("Key")     
-	}
-	
-	
+	}	
 
 }	// end init
 
@@ -511,9 +509,9 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 // 	.then((results) =>  {
 // 		init(results[0])
 // 		var to=null
-// 		var lastWidth = document.querySelector("#graphicContainer").getBoundingClientRect()
+// 		var lastWidth = document.querySelector("#graphicContainer_${targetId}").getBoundingClientRect()
 // 		window.addEventListener('resize', function() {
-// 			var thisWidth = document.querySelector("#graphicContainer").getBoundingClientRect()
+// 			var thisWidth = document.querySelector("#graphicContainer_${targetId}").getBoundingClientRect()
 // 			if (lastWidth != thisWidth) {
 // 				window.clearTimeout(to);
 // 				to = window.setTimeout(function() {
