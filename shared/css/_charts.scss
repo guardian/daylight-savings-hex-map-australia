@@ -12,11 +12,21 @@
     }
 
 
+
 	.axis path,
 	.axis line {
 	  fill: none;
 	  stroke: #767676;
 	  shape-rendering: crispEdges;
+	}
+
+	.selectContainer {
+		display: inline-block;
+		margin-right: 10px;
+	}
+
+	.hide {
+		display: none;
 	}
 
 	.keyLabel {

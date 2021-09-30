@@ -8,7 +8,7 @@ function makeTooltip(el, ttcontext) {
 	console.log(els)
 	var width = document.querySelector(`#${ttcontext} #graphicContainer`).getBoundingClientRect().width
 	
-	var tooltip = tooltipContext.select(`#${ttcontext} #graphicContainer`).append("div")
+	var tooltip = tooltipContext.select(`.interactive-wrapper`).append("div")
 		    .attr("class", "tooltip")
 		    .attr("id", "tooltip")
 		    .style("position", "absolute")
@@ -21,7 +21,7 @@ function makeTooltip(el, ttcontext) {
 		console.log(d.properties.centroid)
 		console.log("sunrise", d.properties.daylight.sunriseStr)
 		console.log("sunset", d.properties.daylight.sunsetStr)
-		console.log("daylighthours6-8", d.properties.daylight.sunDiffStr)
+		console.log("daylighthours", d.properties.daylight.sunDiffStr)
 		console.log("maxDaylight", d.properties.daylight.timeDiffStr)
 
 		var text = `<b>${d.properties.state}</b><br>Daylight hours:${d.properties.daylight.sunDiffStr}`

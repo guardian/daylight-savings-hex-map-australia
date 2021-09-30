@@ -1,0 +1,85 @@
+<div class="interactive-wrapper" id="select">
+    <div id="outer-wrapper" class="showcase">
+			<div class="row">
+
+			<div class='figureTitle' id="chartTitle">Daylight savings scenarios in Australia</div>
+			<div class='subTitle' id="subTitle">Use the options to explore different scenarios and how it would affect time and daylight hours in Australia</div>
+			<div class="controls hide">
+
+				<div class="selectContainer">
+					<div class="selectLabel">
+						Map shows
+					</div>
+					
+					<select id="maptypeSelect">
+						<option selected value="daylight">Daylight hours</option>
+						<option value="sunrise">Sunrise time (local)</option>
+						<option value="sunriseAEST">Sunrise time (AEST)</option>
+					</select>		
+				</div>
+
+				<div class="selectContainer">
+					<div class="selectLabel">
+						Daylight hours between
+					</div>
+					
+					<select id="hoursSelect">
+						<option selected value="T06:45,T22:45">Waking hours (6:45am - 10:45pm)</option>
+						<option value="T05:00,T09:00">Morning (5am-9am)</option>
+						<option value="T17:00,T22:00">Evening (5pm-9pm)</option>
+					</select>		
+				</div>
+
+				<div class="selectContainer">
+					<div class="selectLabel">
+						Daylight savings
+					</div>
+					
+					<select id="savingsSelect">
+						<option selected value="normal">Normal</option>
+						<option value="off">None</option>
+						<option value="on">Everywhere</option>
+					</select>		
+				</div>
+
+				<div class="selectContainer">
+					<div class="selectLabel">
+						Time of year
+					</div>
+					
+					<select id="timeSelect">
+						<option selected value="2021-12-22T18:00:00.00">Midsummer</option>
+						<option value="2021-06-22T18:00:00.00">Midwinter</option>
+					</select>		
+				</div>	
+
+				<div class="selectContainer">
+					<div class="selectLabel">
+						Timezones
+					</div>
+					
+					<select id="zoneSelect">
+						<option selected value="true">Normal</option>
+						<option value="false">Off (AEST)</option>
+					</select>		
+				</div>	
+
+
+			</div>
+
+			<div class='notes' id='chartKey'></div>
+			
+			</div>
+			<div class="row borderBottom chartSans" id="graphicContainer">	
+					<div id="loadingContainer">Loading...</div>
+			</div>
+			<div class='footer offset'>
+				<div id="footerAnnotations">
+
+				</div>	
+				
+				<span id="footnote"></span> Guardian graphic <span id="sourceText"> | Source</span>
+			</div>	
+			
+	</div>
+</div>
