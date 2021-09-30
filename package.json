@@ -61,9 +61,12 @@
     "babel-plugin-transform-import-bangtext-node": "^0.1.4",
     "d3": "^6.7.0",
     "gulp-replace": "^1.0.0",
+    "luxon": "^1.27.0",
     "mkdirp": "^0.5.1",
     "request-promise": "^4.2.5",
+    "suncalc": "^1.8.0",
     "terser-webpack-plugin": "^4.2.2",
+    "topojson": "^3.0.2",
     "uglifyjs-webpack-plugin": "^2.2.0"
   }
 }

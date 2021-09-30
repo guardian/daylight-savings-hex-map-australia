@@ -1,0 +1,18 @@
+{
+  "name": "processing",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "d3": "^6.7.0",
+    "luxon": "^1.27.0",
+    "node-fetch-polyfill": "^2.0.6",
+    "suncalc": "^1.8.0",
+    "topojson": "^3.0.2"
+  }
+}
