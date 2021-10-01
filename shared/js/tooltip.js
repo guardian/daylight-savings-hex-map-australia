@@ -1,6 +1,6 @@
 import * as d3 from "d3"
 
-function makeTooltip(el, ttcontext) {
+function makeTooltip(el, ttcontext, mapType) {
 	const tooltipContext = d3.select(`#${ttcontext}`)
 	var els = tooltipContext.selectAll(el)
 	var width = document.querySelector(`#${ttcontext} #graphicContainer_${ttcontext}`).getBoundingClientRect().width
@@ -20,30 +20,42 @@ function makeTooltip(el, ttcontext) {
 		//console.log("sunset", d.properties.daylight.sunsetStr)
 		//console.log("daylighthours6-8", d.properties.daylight.sunDiffStr)
 		//console.log("maxDaylight", d.properties.daylight.timeDiffStr)
+		
+		var text = `<b>${d.properties.state}</b><br>Daylight hours: ${d.properties.daylight.sunDiffStr}`
 
-		var text = `<b>${d.properties.state}</b><br>Daylight hours:${d.properties.daylight.sunDiffStr}`
+		if (mapType === "sunrise") {
+			var text = `<b>${d.properties.state}</b><br>Sunrise: ${d.properties.daylight.sunriseLocalStr}`
+		}
+		
+		else if (mapType === "sunriseAEST") {
+			var text = `<b>${d.properties.state}</b><br>Sunrise: ${d.properties.daylight.sunriseStr}`
+		}
 		
 		tooltip.transition()
 			.duration(200)
 		   	.style("opacity", .9);
 
 		tooltip.html(text)
-		var tipHeight = document.querySelector(`#${ttcontext} #tooltip_${ttcontext}`).getBoundingClientRect().height
-		var tipWidth = document.querySelector(`#${ttcontext} #tooltip_${ttcontext}`).getBoundingClientRect().width
-		var mouseX = event.pageX
-        var mouseY = event.pageY
-        var half = width/2;
 
-        if (mouseX < half) {
-            tooltip.style("left", (event.pageX + tipWidth/2) + "px");
-        }
+		tooltip.style("top", "1%");
+		tooltip.style("left", "1%");
+		
+		// var tipHeight = document.querySelector(`#${ttcontext} #tooltip_${ttcontext}`).getBoundingClientRect().height
+		// var tipWidth = document.querySelector(`#${ttcontext} #tooltip_${ttcontext}`).getBoundingClientRect().width
+		// var mouseX = event.pageX
+  //       var mouseY = event.pageY
+  //       var half = width/2;
 
-        else if (mouseX >= half) {
-            tooltip.style("left", (event.pageX - tipWidth) + "px");
-        }
+  //       if (mouseX < half) {
+  //           tooltip.style("left", (event.pageX + tipWidth/2) + "px");
+  //       }
 
-        // tooltip.style("left", (d3.mouse(this)[0] + tipWidth/2) + "px");
-        tooltip.style("top", (event.pageY) + "px");
+  //       else if (mouseX >= half) {
+  //           tooltip.style("left", (event.pageX - tipWidth) + "px");
+  //       }
+
+  //       // tooltip.style("left", (d3.mouse(this)[0] + tipWidth/2) + "px");
+  //       tooltip.style("top", (event.pageY) + "px");
 
 	})
 	

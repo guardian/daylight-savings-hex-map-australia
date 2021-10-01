@@ -3,7 +3,7 @@
 			<div class="row">
 
 			<div class='figureTitle' id="chartTitle">Daylight savings scenarios in Australia</div>
-			<div class='subTitle' id="subTitle">Use the options to explore different scenarios and how it would affect time and daylight hours in Australia</div>
+			<div class='subTitle' id="subTitle">Use the options* to explore different scenarios and how it would affect time and daylight hours in Australia. Daylight hours are based on the estimated sun position, and do not take weather into account</div>
 			<div class="controls hide">
 
 				<div class="selectContainer">
@@ -62,6 +62,17 @@
 						<option selected value="true">Normal</option>
 						<option value="false">Off (AEST)</option>
 					</select>		
+				</div>
+
+				<div class="selectContainer">
+					<div class="selectLabel">
+						Colour scale
+					</div>
+					
+					<select id="scaleSelect">
+						<option selected value="scenario">Compare scenarios</option>
+						<option value="states">Compare states</option>
+					</select>		
 				</div>	
 
 
@@ -70,7 +81,7 @@
 			<div class='notes' id='chartKey'></div>
 			
 			</div>
-			<div class="row borderBottom chartSans" id="graphicContainer">	
+			<div class="row borderBottom chartSans graphicContainer" id="graphicContainer_select">	
 					<div id="loadingContainer">Loading...</div>
 			</div>
 			<div class='footer offset'>
@@ -78,7 +89,7 @@
 
 				</div>	
 				
-				<span id="footnote"></span> Guardian graphic <span id="sourceText"> | Source</span>
+				<span id="footnote">*If I'm completely honest I don't completely understand how some of these factors combine together into different scenarios. I'm also not showing UTC+08:45/Eucla or Broken Hill because there are limits to how far I'm willing to push my sanity. Nevertheless, please let me know if anything looks wrong. | </span> Guardian graphic <span id="sourceText"></span>
 			</div>	
 			
 	</div>

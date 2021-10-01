@@ -6,7 +6,7 @@ import { Interval } from "luxon"
 import * as suncalc from "suncalc"
 import { makeTooltip } from 'shared/js/tooltip';
 
-export function makeMap(data, targetId, headline="", controls, time=DateTime.local(2021, 12, 22, 18), savings="normal", timezones=true, mapType="daylight", startTimeStr="T06:45", endTimeStr="T22:45") {
+export function makeMap(data, targetId, headline="", controls, time=DateTime.local(2021, 12, 22, 18), savings="normal", timezones=true, mapType="daylight", startTimeStr="T06:45", endTimeStr="T22:45", scale="scenario", parent="") {
 
 	const container = d3.select(`#${targetId} #graphicContainer_${targetId}`)
 	const context = d3.select(`#${targetId}`)
@@ -158,18 +158,36 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 				}
 
 				else if (savings === "on") {
-					return "UTC+11:00"
+					// non DST
+					if (date < nonDstEnd && date > nonDstStart) {
+						return "UTC+10:00"
+					}
+					// DST
+					else {
+						return "UTC+11:00"
+					}
+					
 				}
-				
+			
 			}
 
 			else if (state === "WA") {
+
 				if (savings === "normal" || savings === "off") {
 					return "UTC+08:00"
 				}
 
 				else if (savings === "on") {
-					return "UTC+09:00"
+					// Non DST
+					if (date < nonDstEnd && date > nonDstStart) {
+						return "UTC+08:00"
+					}
+
+					// DST
+					else {
+						return "UTC+09:00"
+					}
+					
 				}
 
 			}
@@ -181,7 +199,15 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 				}
 				
 				else if (savings === "on") {
-					return "UTC+10:30"
+					// non DST
+					if (date < nonDstEnd && date > nonDstStart) {
+						return "UTC+09:30"
+					}
+					// DST
+					else {
+						return "UTC+10:30"
+					}
+					
 				}	
 			}
 
@@ -189,7 +215,7 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 
 				// Check if it's a non-DST time
 
-				if (savings === "normal") {
+				if (savings === "normal" || savings === "on") {
 					if (date < nonDstEnd && date > nonDstStart) {
 						return "UTC+10:00"
 					}
@@ -201,9 +227,9 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 					}
 				}
 
-				else if (savings === "on") {
-					return "UTC+11:00"
-				}
+				// else if (savings === "on") {
+				// 	return "UTC+11:00"
+				// }
 				
 				else if (savings === "off") {
 					return "UTC+10:00"
@@ -215,7 +241,7 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 
 				// Check if it's a non-DST time
 
-				if (savings === "normal") {
+				if (savings === "normal" || savings === "on") {
 
 					if (date < nonDstEnd && date > nonDstStart) {
 						return "UTC+09:30"
@@ -228,9 +254,9 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 					}
 				}
 
-				else if (savings === "on") {
-					return "UTC+10:30"
-				}
+				// else if (savings === "on") {
+				// 	return "UTC+10:30"
+				// }
 				
 				else if (savings === "off") {
 					return "UTC+09:30"
@@ -296,14 +322,15 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 		var sunsetLocal = DateTime.fromISO(sunset.toISO().split("+")[0])
 
 		return { "timeDiff": timeDiff, 
-				"timeDiffStr": Duration.fromMillis(timeDiff).toFormat('hh:mm:ss'), 
+				"timeDiffStr": Duration.fromMillis(timeDiff).toFormat('hh:mm'), 
 				"sunDiff": sunDiff,
-				"sunDiffStr": Duration.fromMillis(sunDiff).toFormat('hh:mm:ss'),
-				"sunriseStr":sunrise.toISO(),
+				"sunDiffStr": Duration.fromMillis(sunDiff).toFormat('hh:mm'),
+				"sunriseStr":sunrise.toFormat('hh:mm'),
 				"sunrise": sunrise,
-				"sunsetStr":sunset.toISO(),
+				"sunsetStr":sunset.toFormat('hh:mm'),
 				"sunset": sunset,
 				"sunriseLocal":sunriseLocal,
+				"sunriseLocalStr":sunriseLocal.toFormat('hh:mm'),
 				"sunsetLocal":sunsetLocal
 			}
 
@@ -372,8 +399,24 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 
 	})
 
+	// console.log(geo)
+
+	var domain = d3.extent(geo, d => d.properties.daylight.sunDiff)
+	
+
+	if (scale === "scenario") {
+		if (startTimeStr === "T05:00" || startTimeStr === "T17:00") {
+			domain = [3000000, 14400000]
+		} 
+
+		else if (startTimeStr === "T06:45") {
+			domain = [32105750, 51302612]
+
+		} 
+	} 
+	
 	var colorScale = d3.scaleLinear()
-		.domain(d3.extent(geo, d => d.properties.daylight.sunDiff))
+		.domain(domain)
 		.range(daylightColors)
 
 	var sunriseScale = d3.scaleTime()
@@ -384,7 +427,7 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 		.domain(d3.extent(geo, d => d.properties.daylight.sunrise))
 		.range(sunriseColors)			
 
-	// console.log(sunriseScale.domain(), sunriseScale.range())	
+	console.log(colorScale.domain())	
 
 	features.append("g")
 		.selectAll("path")
@@ -407,7 +450,7 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 		})
 		.attr("d", path)
 
-	makeTooltip(`.hex_${targetId}`, targetId);	
+	makeTooltip(`.hex_${targetId}`, targetId, mapType);	
 	makeKey()
 
 
@@ -436,6 +479,7 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 
 		context.select("#chartKey").html("")
 		var keyWidth = width * 0.3
+		var keyLabel = "Key"
 
 		if (width < 840) {
 			keyWidth = width * 0.5
@@ -451,7 +495,7 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 		if (mapType === "daylight") {
 			keyText1 = Duration.fromMillis(colorScale.domain()[0]).toFormat('h:m').split(":")[0] + " hrs, " + Duration.fromMillis(colorScale.domain()[0]).toFormat('h:m').split(":")[1] + " mins"
 			keyText2 = Duration.fromMillis(colorScale.domain()[1]).toFormat('h:m').split(":")[0] + " hrs, " + Duration.fromMillis(colorScale.domain()[1]).toFormat('h:m').split(":")[1] + " mins"
-			
+			keyLabel = "Daylight hours"
 			// keyText1 = Duration.fromMillis(colorScale.domain()[0]).toFormat('h:mm')
 			// keyText2 = Duration.fromMillis(colorScale.domain()[1]).toFormat('h:mm')
 
@@ -463,11 +507,13 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 		else if (mapType === "sunrise") {
 			keyText1 = formatTime(sunriseScale.domain()[0])
 			keyText2 = formatTime(sunriseScale.domain()[1])
+			keyLabel = "Time"
 		}
 
 		else if (mapType === "sunriseAEST") {
 			keyText1 = formatTime(sunriseAESTScale.domain()[0])
 			keyText2 = formatTime(sunriseAESTScale.domain()[1])
+			keyLabel = "Time"
 		}
 
 		var keyLeftMargin = 0
@@ -515,11 +561,11 @@ export function makeMap(data, targetId, headline="", controls, time=DateTime.loc
 	        .attr("y", 47)
 	        .attr("class", "keyLabel").text(keyText2)
 
-	     // keySvg.append("text")
-	     //    .attr("x", keyLeftMargin)
-	     //    .attr("text-anchor", "start")
-	     //    .attr("y", 15)
-	     //    .attr("class", "keyLabel").text("Key")     
+	     keySvg.append("text")
+	        .attr("x", keyLeftMargin)
+	        .attr("text-anchor", "start")
+	        .attr("y", 15)
+	        .attr("class", "keyLabel").text(keyLabel)     
 	}	
 
 }	// end init

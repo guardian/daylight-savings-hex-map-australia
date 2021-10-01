@@ -9,18 +9,18 @@ Promise.all([
 
 	const d1 = JSON.parse(JSON.stringify(results[0]))
 	const d2 = JSON.parse(JSON.stringify(results[0]))
-	makeMap(d1,'morning', 'Daylight hours 5am to 9am', false, DateTime.local(2021, 12, 22, 18), "normal", true, "daylight", "T05:00", "T09:00", "scenario")
-	makeMap(d2,'evening', 'Daylight hours 5pm to 9pm', false, DateTime.local(2021, 12, 22, 18), "normal", true, "daylight", "T17:00", "T21:00", "scenario")
+	makeMap(d1,'morningAbolish', 'Daylight hours 5am to 9am', false, DateTime.local(2021, 12, 22, 18), "off", true, "daylight", "T05:00", "T09:00", "scenario")
+	makeMap(d2,'eveningAbolish', 'Daylight hours 5pm to 9pm', false, DateTime.local(2021, 12, 22, 18), "off", true, "daylight", "T17:00", "T21:00", "scenario")
 
 	var to=null
-	var lastWidth = document.querySelector("#graphicContainer_morning").getBoundingClientRect()
+	var lastWidth = document.querySelector("#graphicContainer_morningAbolish").getBoundingClientRect()
 	window.addEventListener('resize', function() {
-		var thisWidth = document.querySelector("#graphicContainer_morning").getBoundingClientRect()
+		var thisWidth = document.querySelector("#graphicContainer_morningAbolish").getBoundingClientRect()
 		if (lastWidth != thisWidth) {
 			window.clearTimeout(to);
 			to = window.setTimeout(function() {
-				    makeMap(d1,'morning', 'Daylight hours 5am to 9am', false, DateTime.local(2021, 12, 22, 18), "normal", true, "daylight", "T05:00", "T09:00", "scenario")
-					makeMap(d2,'evening', 'Daylight hours 5pm to 9pm', false, DateTime.local(2021, 12, 22, 18), "normal", true, "daylight", "T17:00", "T21:00", "scenario")
+				    makeMap(d1,'morningAbolish', 'Daylight hours 5am to 9am', false, DateTime.local(2021, 12, 22, 18), "off", true, "daylight", "T05:00", "T09:00", "scenario")
+					makeMap(d2,'eveningAbolish', 'Daylight hours 5pm to 9pm', false, DateTime.local(2021, 12, 22, 18), "off", true, "daylight", "T17:00", "T21:00", "scenario")
 				}, 100)
 		}
 

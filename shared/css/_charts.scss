@@ -7,7 +7,7 @@
 
     max-width:1200px; 
 
-    #graphicContainer {
+    .graphicContainer {
     	position: relative;
     }
 
@@ -23,6 +23,7 @@
 	.selectContainer {
 		display: inline-block;
 		margin-right: 10px;
+		margin-top:10px;
 	}
 
 	.hide {
@@ -37,6 +38,13 @@
 	.lineLabels {
 		font-weight: bold;
 		font-size:1.2em;
+	}
+
+	.selectLabel {
+		font-size:14px;
+        color: #767676;
+        font-family:'Guardian Text Sans Web', 'Agate Sans', sans-serif;
+        padding-bottom: 5px;
 	}
 
 	  #loadingContainer {

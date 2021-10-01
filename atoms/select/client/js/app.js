@@ -6,7 +6,7 @@ Promise.all([
 	fetch(`<%= path %>/aus-hex-grid.json`).then(res => res.json())
 ])
 .then((results) =>  {
-	makeMap(results[0],'select', "", true, DateTime.local(2021, 12, 22, 18), "normal", true, "daylight", "T05:00", "T09:00")
+	makeMap(results[0],'select', "", true, DateTime.local(2021, 12, 22, 18), "normal", true, "daylight", "T06:45", "T22:45", "scenario")
 
 	var context = d3.select("#select")
 	context.select("#select .controls").classed("hide", false)
@@ -30,6 +30,7 @@ Promise.all([
 
 	var startTimeStr = "T06:45"
 	var endTimeStr = "T22:45"
+	var scale = "scenario"
 
 	
 	context.select("#maptypeSelect").on("change", function() {
@@ -37,7 +38,7 @@ Promise.all([
     	console.log("mapType",mapType)
 
     	if (mapType != "daylight") {
-    		console.log("yep")
+    		// console.log("yep")
     		context.select("#hoursSelect").attr("disabled", true)
     	}
 
@@ -71,10 +72,29 @@ Promise.all([
     	updateMap()
 	})
 
+	context.select("#scaleSelect").on("change", function() {
+		scale = this.options[this.selectedIndex].value
+    	updateMap()
+	})
+
 	function updateMap() {
 		console.log("time", time, "savings", savings, "timezones", timezones, "mapType", mapType, "startTimeStr", startTimeStr, "endTimeStr", endTimeStr)
-		makeMap(results[0],'select', "", true, time, savings, timezones, mapType, startTimeStr, endTimeStr)
+		makeMap(results[0],'select', "", true, time, savings, timezones, mapType, startTimeStr, endTimeStr, scale)
 	}
+
+	var to=null
+	var lastWidth = document.querySelector("#select #graphicContainer_select").getBoundingClientRect()
+	window.addEventListener('resize', function() {
+		var thisWidth = document.querySelector("#select #graphicContainer_select").getBoundingClientRect()
+		if (lastWidth != thisWidth) {
+			window.clearTimeout(to);
+			to = window.setTimeout(function() {
+				    updateMap()
+				}, 100)
+		}
+
+	})
+
 
 
 });
